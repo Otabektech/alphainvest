@@ -16,6 +16,7 @@ import {
 
 import { useStore } from "../../../context";
 import { Actions } from "../../../store";
+import { Company } from "../../../types";
 
 const Container = styled.div`
   display: flex;
