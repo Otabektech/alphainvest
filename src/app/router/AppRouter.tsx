@@ -7,6 +7,14 @@ export const AppRouter = () => {
     <Router>
       <Routes>
         <Route path="/" element={<App />}>
+          <Route index element={<IpoCalendar />} />
+          <Route path="funds" element={<Funds />}>
+            <Route path=":fundId" element={<Fund />} />
+          </Route>
+
+          <Route path="companies" element={<Companies />}>
+            <Route path=":companyId" element={<Company />} />
+          </Route>
           <Route path="documents" element={<h1>I am Documents</h1>} />
           <Route path="archive" element={<h1>I am Archive</h1>} />
           <Route path="users" element={<h1>I am Members</h1>} />
