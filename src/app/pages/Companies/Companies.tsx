@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { RowLink } from "../../../components";
+import styled from "styled-components";
 
 import {
   AppContentHeader,
@@ -43,9 +44,38 @@ export const Companies = () => {
     });
   }, [dispatch]);
 
+  useEffect(() => {
+    if (data && location.pathname === "/companies") {
+      const firstCompanyId = Object.keys(data)[0];
+      navigate(`/companies/${firstCompanyId}`);
+    }
+  }, [data, location.pathname, navigate]);
+
   return (
     <>
-      <h2>companies</h2>{" "}
+      <AppContentHeader title="Companies" />
+      <Container>
+        <CompaniesCard>
+          <Table>
+            <TableHead>
+              <TableHeadCell>Company Name</TableHeadCell>
+            </TableHead>
+            <TableBody>
+              {data &&
+                Object.values(data).map((company: Company) => {
+                  return (
+                    <RowLink to={company.id} key={company.id}>
+                      <TableRow>
+                        <TableBodyCell>{company.info.name}</TableBodyCell>
+                      </TableRow>
+                    </RowLink>
+                  );
+                })}
+            </TableBody>
+          </Table>
+        </CompaniesCard>
+        <Outlet />
+      </Container>
     </>
   );
 };

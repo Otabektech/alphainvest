@@ -11,6 +11,46 @@ export const Actions = {
 };
 export type ActionsType = FundsActions | CompaniesActions | IpoCalendarActions;
 
+interface FetchFundsDataAction {
+  type: FundsActions.FETCH_FUNDS_DATA;
+}
+
+interface FetchCompaniesData {
+  type: CompaniesActions.FETCH_COMPANIES_DATA;
+}
+interface SortFundsInvestedIn {
+  type: FundsActions.SORT_FUNDS_INVESTEDIN;
+  payload: {
+    fundId: string;
+    columnIdx: string;
+    sortDirection: "ASC" | "DESC";
+  };
+}
+
+interface FetchIpoCalendar {
+  type: IpoCalendarActions.CACHE_IPOS;
+  payload: {
+    from: string;
+    to: string;
+    data: CompanyIpo[];
+    queryBy: IpoQueryBy;
+  };
+}
+
+interface SetIpoQueryBy {
+  type: IpoCalendarActions.SET_QUERY_BY;
+  payload: {
+    queryBy: IpoQueryBy;
+  };
+}
+
+interface SetIpoCalendarIsLoading {
+  type: IpoCalendarActions.SET_IS_LOADING;
+  payload: {
+    isLoading: boolean;
+  };
+}
+
 export type ActionType =
   | FetchFundsDataAction
   | SortFundsInvestedIn
