@@ -26,9 +26,53 @@ const Container = styled(Card)`
 `;
 
 export const Funds = () => {
+  const {
+    state: {
+      funds: { data },
+    },
+    dispatch,
+  } = useStore();
+  const navigate = useNavigate();
+  const location = useLocation();
+  console.log(location);
+
+  useEffect(() => {
+    dispatch({
+      type: Actions.FETCH_FUNDS_DATA,
+    });
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (data && location.pathname === "/funds") {
+      const firstFundId = Object.keys(data)[0];
+      navigate(`/funds/${firstFundId}`);
+    }
+  }, [data, location.pathname, navigate]);
+
   return (
     <>
-      <h2>Funds</h2>
+      <AppContentHeader title="Funds" />
+      <Container>
+        <Table>
+          <TableHead>
+            <TableHeadCell>Fund Name</TableHeadCell>
+          </TableHead>
+          <TableBody>
+            {data &&
+              Object.values(data).map((fund: Fund) => {
+                return (
+                  <RowLink to={fund.id} key={fund.id}>
+                    <TableRow>
+                      <TableBodyCell>{fund.name}</TableBodyCell>
+                    </TableRow>
+                  </RowLink>
+                );
+              })}
+          </TableBody>
+        </Table>
+        <Seperator />
+        <Outlet />
+      </Container>
     </>
   );
 };
