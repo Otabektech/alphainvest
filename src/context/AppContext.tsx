@@ -1,29 +1,30 @@
-import React, { createContext, useReducer, useContext } from 'react';
-import { rootReducer, GlobalState, ActionType, initialState } from '../store';
+import React, { createContext, useReducer, useContext } from "react";
+import { rootReducer, GlobalState, ActionType, initialState } from "../store";
 
 interface AppContextType {
-    state: GlobalState;
-    dispatch(action: ActionType): void;
+  state: GlobalState;
+  dispatch(action: ActionType): void;
 }
 const AppContext = createContext<AppContextType>({
-    state: initialState,
-    dispatch: () => undefined
+  state: initialState,
+  dispatch: () => undefined,
 });
 
 interface AppProviderType {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }
 export const AppProvider: React.FC<AppProviderType> = ({ children }) => {
-    const [state, dispatch] = useReducer<
-        React.Reducer<GlobalState, ActionType>
-    >(rootReducer, initialState);
+  const [state, dispatch] = useReducer<React.Reducer<GlobalState, ActionType>>(
+    rootReducer,
+    initialState
+  );
 
-    const value = { state, dispatch };
+  const value = { state, dispatch };
 
-    return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
+  return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };
 
 export const useStore = () => {
-    const { state, dispatch } = useContext<AppContextType>(AppContext);
-    return { state, dispatch };
+  const { state, dispatch } = useContext<AppContextType>(AppContext);
+  return { state, dispatch };
 };
