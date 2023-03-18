@@ -19,6 +19,12 @@ import {
 } from "../../../components";
 import { useStore } from "../../../context";
 import { Actions, fetchIpos, IpoQueryBy } from "../../../store";
+import {
+  createKeyFromTwoDates,
+  getIpoQueryRange,
+  formatFunds,
+  formatNumber,
+} from "../../../utils";
 
 const CalendarControl = styled.div`
   font-size: var(--font-size-4);
@@ -68,9 +74,27 @@ export const IpoCalendar = () => {
     fetchIpos(currentMonth.from, currentMonth.to, "monthly", data, dispatch);
   }, [dispatch]);
 
+  const setNewQueryBy = async (value: string) => {
+    dispatch({
+      type: Actions.SET_QUERY_BY,
+      payload: { queryBy: value as IpoQueryBy },
+    });
+  };
+
   return (
     <>
-      <h2>Ipocalendar</h2>
+      <AppContentHeader title="IPO Calendar">
+        <CalendarControl>
+          <ButtonFilter
+            onClick={setNewQueryBy}
+            activeIndex={queryBy}
+            data={[
+              { label: "Weekly", value: "weekly" },
+              { label: "Monthly", value: "monthly" },
+            ]}
+          />
+        </CalendarControl>
+      </AppContentHeader>
     </>
   );
 };
