@@ -46,7 +46,13 @@ export const DashboardCard: React.FC<DashboarCardProps> = ({
 }) => {
   return (
     <DashboardCardBase>
-      <h2>Dashboard card</h2>
+      <div>
+        <DashboardCardFact>{fact}</DashboardCardFact>
+        <DashboardCardDescription>{description}</DashboardCardDescription>
+      </div>
+      <DashboardCardIconHolder>
+        <Icon name={icon} color={"var(--primaryColor-100)"} />
+      </DashboardCardIconHolder>
     </DashboardCardBase>
   );
 };
