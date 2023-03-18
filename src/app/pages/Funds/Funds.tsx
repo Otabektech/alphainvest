@@ -12,7 +12,7 @@ import {
   TableBodyCell,
   TableHeadCell,
   TableRow,
-  Seperator,
+  Separator,
 } from "../../../components";
 import { useStore } from "../../../context";
 import { Actions } from "../../../store";
@@ -70,7 +70,7 @@ export const Funds = () => {
               })}
           </TableBody>
         </Table>
-        <Seperator />
+        <Separator />
         <Outlet />
       </Container>
     </>
