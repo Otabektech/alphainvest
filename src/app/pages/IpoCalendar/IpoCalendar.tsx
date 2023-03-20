@@ -81,6 +81,32 @@ export const IpoCalendar = () => {
     });
   };
 
+  const renderQueryPeriodText = (queryBy: IpoQueryBy) => {
+    if (queryBy === "weekly") {
+      return `${currentWeek.from} - ${currentWeek.to}`;
+    }
+    return `${currentMonth.from} - ${currentMonth.to}`;
+  };
+
+  const getCurrentPeriodKey = (queryBy: IpoQueryBy) => {
+    if (queryBy === "weekly") {
+      return createKeyFromTwoDates(currentWeek.from, currentWeek.to);
+    }
+    return createKeyFromTwoDates(currentMonth.from, currentMonth.to);
+  };
+
+  const currentPeriodKey = getCurrentPeriodKey(queryBy);
+
+  const getIpos = (queryNext: "prev" | "next") => {
+    const { from, to } = getIpoQueryRange(
+      queryNext,
+      queryBy,
+      currentMonth,
+      currentWeek
+    );
+    fetchIpos(from, to, queryBy, data, dispatch);
+  };
+
   return (
     <>
       <AppContentHeader title="IPO Calendar">
@@ -93,8 +119,28 @@ export const IpoCalendar = () => {
               { label: "Monthly", value: "monthly" },
             ]}
           />
+          {renderQueryPeriodText(queryBy)}
+          <span>|</span>
+          <div>
+            <span onClick={() => getIpos("prev")}>Prev</span>
+            <span onClick={() => getIpos("next")}>Next</span>
+          </div>
         </CalendarControl>
       </AppContentHeader>
+      <CalendarCard>
+        <Table>
+          <TableHead>
+            <TableHeadCell>Date</TableHeadCell>
+            <TableHeadCell>Company Name</TableHeadCell>
+            <TableHeadCell align="center">Symbol</TableHeadCell>
+            <TableHeadCell>Exchange</TableHeadCell>
+            <TableHeadCell>Number of Shares</TableHeadCell>
+            <TableHeadCell>Price</TableHeadCell>
+            <TableHeadCell>Total Shares Value</TableHeadCell>
+            <TableHeadCell>Status</TableHeadCell>
+          </TableHead>
+        </Table>
+      </CalendarCard>
     </>
   );
 };
