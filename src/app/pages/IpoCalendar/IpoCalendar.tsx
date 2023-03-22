@@ -139,6 +139,48 @@ export const IpoCalendar = () => {
             <TableHeadCell>Total Shares Value</TableHeadCell>
             <TableHeadCell>Status</TableHeadCell>
           </TableHead>
+          {isLoading && <Loading />}
+
+          <TableBody>
+            {data?.[queryBy][currentPeriodKey]?.map((company, idx) => {
+              return (
+                <TableRow key={idx}>
+                  <TableRowHeadCell>{company.date}</TableRowHeadCell>
+                  <TableBodyCell>{company.name}</TableBodyCell>
+                  <TableBodyCell align="center">
+                    {company.symbol && <Badge>{company.symbol}</Badge>}
+                  </TableBodyCell>
+                  <TableBodyCell>{company.exchange}</TableBodyCell>
+                  <TableBodyCell>
+                    {formatNumber(company.numberOfShares)}
+                  </TableBodyCell>
+                  <TableBodyCell>
+                    {company.price && (
+                      <Badge variant="blue">$ {company.price}</Badge>
+                    )}
+                  </TableBodyCell>
+                  <TableBodyCell>
+                    {formatFunds(company.totalSharesValue)}
+                  </TableBodyCell>
+                  <TableBodyCell>
+                    <Badge
+                      variant={
+                        IPO_STATUS_BADGE_MAP[
+                          company.status
+                        ] as BadgeVariantProps
+                      }
+                    >
+                      {company.status}
+                    </Badge>
+                  </TableBodyCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+
+          {!isLoading && !data?.[queryBy][currentPeriodKey]?.length && (
+            <Empty text="There are not IPO scheduled for this period" />
+          )}
         </Table>
       </CalendarCard>
     </>
