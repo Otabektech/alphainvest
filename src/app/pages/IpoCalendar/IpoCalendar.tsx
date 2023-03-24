@@ -72,6 +72,7 @@ export const IpoCalendar = () => {
   useEffect(() => {
     fetchIpos(currentWeek.from, currentWeek.to, "weekly", data, dispatch);
     fetchIpos(currentMonth.from, currentMonth.to, "monthly", data, dispatch);
+    // eslint-disable-next-line
   }, [dispatch]);
 
   const setNewQueryBy = async (value: string) => {
